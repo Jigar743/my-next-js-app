@@ -1,0 +1,102 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  height: 60px;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.navbar_brand {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar_links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar_links button {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #fff;
+  background: none;
+  font-size: larger;
+  width: 100px;
+}
+
+.navbar_links button:hover {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.profile_build {
+  margin: 50px auto;
+}
+
+.work_experience {
+  width: 750px;
+  margin: auto;
+}
+
+.company_details {
+  width: 675px;
+}
+
+.company_logo > img {
+  /* width: 50px;
+  height: 50px; */
+  border-radius: 50%;
+}
+
+.experience_main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.designation_details > h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.position_details > h4 {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.position_details > .skills_mapping > span {
+  font-weight: 600;
+}
+
+.position_details > .position_description {
+  text-align: justify;
+}
+
+.designation_description > p {
+  text-align: justify;
+}
+
+.course_details > h4 {
+  margin: 0;
+}
+
+.course_details > div > a {
+  color: black;
+  font-weight: 600;
+  text-decoration-line: none;
+}
+
+.course_details > div > a:hover{
+  text-decoration-line: underline;
+}
+
+.certificate_section,
+.course_details {
+  margin-bottom: 30px;
+}
