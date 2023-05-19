@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { API_ROUTES } from "../Helpers/ApiManage";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 export default function login() {
   const emailRef = useRef();
@@ -31,6 +32,7 @@ export default function login() {
         emailRef.current.value = "";
         passwordRef.current.value = "";
         localStorage.setItem("token", response.data.token);
+        Cookies.set("token", response.data.token);
       }
     } catch (error) {
       console.log({ error });

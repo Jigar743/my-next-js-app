@@ -2,13 +2,7 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import dbConnect from "./Helpers/DBConnect";
 
-export const tokenVerify = async () => {
-  let token = null;
-  if (typeof window !== "undefined") {
-    token = window.localStorage.getItem("token");
-  }
-  console.log(token);
-
+export const tokenVerify = async (token) => {
   if (token) {
     const response = await axios.get("/api/verifyToken", {
       token,
@@ -25,41 +19,38 @@ export async function middleware(req) {
     pathname.startsWith("/static") ||
     pathname.startsWith("/api")
   ) {
-    console.log({ pathname });
     dbConnect();
     return NextResponse.next();
   }
 
-  const auth = req.headers.get("Cookie");
-  console.log({ auth });
+  const { url, nextUrl, cookies } = req;
+  const token = cookies.get("token")?.value || null;
 
-  if (!auth) {
-    return NextResponse.rewrite(new URL("/login", req.url));
-  }
-
-  // get token from cookie
-  const token = auth.split("=")[1];
-
-  // if no token found, redirect to login page
+  // // if no token found, redirect to login page
   if (!token || token === "") {
-    return NextResponse.rewrite(new URL("/login", req.url));
+    const response = NextResponse.next();
+    response.cookies.delete("token");
+    return NextResponse.redirect(new URL("/login", url));
   }
 
-  let decodedToken;
+  let user;
   try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    user = jwt.verify(token, process.env.JWT_SECRET);
+    console.log({ user });
   } catch (err) {
-    return NextResponse.rewrite(new URL("/login", req.url));
+    console.log({ err });
+    return NextResponse.redirect(new URL("/login", url));
   }
   // if token is not valid, redirect to login page
-  if (!decodedToken) {
-    return NextResponse.rewrite(new URL("/login", req.url));
+  if (!user) {
+    return NextResponse.redirect(new URL("/login", url));
+  } else {
+    return NextResponse.redirect(new URL("/users", url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  // matcher: ["/api/:path*"],
-  matcher: "/api/:path*",
+  matcher: ["/login"],
 };
