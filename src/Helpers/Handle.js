@@ -1,5 +1,5 @@
 import nc from "next-connect";
-// import bcrypt from "bcryptjs";
+import dbConnect from "./DBConnect";
 
 function onError(err, req, res, next) {
   console.error(err);
@@ -11,6 +11,7 @@ const handler = nc({
   onNoMatch: (req, res) => {
     res.status(404).send("Page is not found");
   },
-});
+  attachParams: true,
+}).use(dbConnect);
 
 export default handler;

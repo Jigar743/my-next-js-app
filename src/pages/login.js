@@ -8,16 +8,19 @@ import {
   Input,
   FormField,
   Image,
-} from "../styles/FormStyling";
+} from "../styles/FormStyling.styled";
 import axios from "axios";
 import { API_ROUTES } from "../Helpers/ApiManage";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { isAuthenticated } from "../Helpers/AuthHandler";
 
 export default function login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const rememberMeCheck = useRef();
+  const router = useRouter();
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -33,6 +36,7 @@ export default function login() {
         passwordRef.current.value = "";
         localStorage.setItem("token", response.data.token);
         Cookies.set("token", response.data.token);
+        router.replace("/users");
       }
     } catch (error) {
       console.log({ error });
@@ -80,4 +84,19 @@ export default function login() {
       </p>
     </LoginContainer>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { isLoggedIn, user } = await isAuthenticated(context);
+  if (isLoggedIn && user !== null) {
+    return {
+      redirect: {
+        destination: "/users",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }

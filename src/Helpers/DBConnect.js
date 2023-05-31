@@ -12,12 +12,15 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-export default async function dbConnect() {
+export default async function dbConnect(req, res, next) {
   if (cached.conn) {
+    console.log("Excisting database connection!");
+    next();
     return cached.conn;
   }
 
   if (!cached.promise) {
+    console.log("Creating new database connection!");
     const opts = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -26,11 +29,12 @@ export default async function dbConnect() {
     cached.promise = mongoose
       .connect(dbUrl, opts)
       .then((mongoose) => {
-        console.log("Connection is established!");
+        next();
         return mongoose;
       })
       .catch((e) => {
         console.log("Something wen wrong!", e);
+        res.status(502).json({ message: "Internal server error!" });
       });
   }
   cached.conn = await cached.promise;

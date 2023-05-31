@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Button,
   Fieldset,
@@ -7,18 +7,27 @@ import {
   Input,
   Label,
   LoginContainer,
-} from "../styles/FormStyling";
+} from "../styles/FormStyling.styled";
 import axios from "axios";
 import { API_ROUTES } from "../Helpers/ApiManage";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { isAuthenticated } from "../Helpers/AuthHandler";
+import Cookies from "js-cookie";
 
 export default function signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const rememberMeCheck = useRef();
+  const router = useRouter();
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
+
+    let name = nameRef.current.value;
+    let email = emailRef.current.value;
+    let password = passwordRef.current.value;
 
     try {
       const response = await axios.post(API_ROUTES.signupUser, {
@@ -26,10 +35,13 @@ export default function signup() {
         email,
         password,
       });
-      if (response) {
-        setName("");
-        setEmail("");
-        setPassword("");
+      if (response.status === 200) {
+        nameRef.current.value = "";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+        localStorage.setItem("token", response.data.token);
+        Cookies.set("token", response.data.token);
+        router.replace("/users");
       }
     } catch (error) {
       console.log({ signupErr: error });
@@ -48,8 +60,7 @@ export default function signup() {
               name="userName"
               placeholder="Enter name"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              ref={nameRef}
             />
           </FormField>
           <FormField topMargin>
@@ -60,8 +71,7 @@ export default function signup() {
               name="userEmail"
               placeholder="Enter email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              ref={emailRef}
             />
           </FormField>
           <FormField topMargin>
@@ -72,8 +82,7 @@ export default function signup() {
               name="userPassword"
               placeholder="Enter password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              ref={passwordRef}
             />
           </FormField>
           <Button type="submit">Signup</Button>
@@ -84,4 +93,19 @@ export default function signup() {
       </p>
     </LoginContainer>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { isLoggedIn, user } = await isAuthenticated(context);
+  if (isLoggedIn && user !== null) {
+    return {
+      redirect: {
+        destination: "/users",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }

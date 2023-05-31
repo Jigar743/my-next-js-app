@@ -3,7 +3,6 @@ import handler from "../../../Helpers/Handle";
 import { generateToken } from "../../../Helpers/tokenGenerate";
 import Users from "../../../Models/Users";
 import * as bcrypt from "bcrypt";
-// import verifytToken from "../verifyToken";
 
 handler.post(loginUser);
 
@@ -41,4 +40,4 @@ async function loginUser(req, res) {
     });
 }
 
-export default loginUser;
+export default handler;
