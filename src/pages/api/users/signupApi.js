@@ -23,7 +23,7 @@ async function createUser(req, res) {
     .save()
     .then((user) => {
       var token = generateToken(user);
-      res.status(200).json({
+      res.status(201).json({
         newUser,
         token,
       });

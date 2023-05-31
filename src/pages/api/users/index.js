@@ -8,6 +8,14 @@ import * as bcrypt from "bcrypt";
 
 handler.get(getUsers);
 
-async function getUsers(req, res) {}
+async function getUsers(req, res) {
+  try {
+    const allUsers = await Users.find({});
+
+    res.status(200).json({ allUsers });
+  } catch (e) {
+    res.status(404).json({ message: "please try again later!" });
+  }
+}
 
 export default handler;

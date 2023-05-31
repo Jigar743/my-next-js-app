@@ -1,10 +1,14 @@
 import Layout from "../Component/Layout/Layout";
-import "../styles/global.css";
+import { GlobalStyle } from "../styles/global.styled";
+import Provider from "../Component/Provider/Provider";
 
 export default function App({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <Provider>
+      <GlobalStyle />
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
   );
 }

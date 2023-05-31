@@ -8,14 +8,13 @@ export const LoginContainer = styled.div`
 export const Form = styled.form``;
 
 export const Fieldset = styled.fieldset`
-  height: ${(props) => (props.signupForm ? "350px" : "300px")};
+  height: ${({ signupForm }) => (signupForm ? "350px" : "300px")};
   border: 0.15rem solid #9da2a742;
   border-radius: 10px;
   display: flex;
   padding: 10px;
   flex-direction: column;
 `;
-
 
 export const Button = styled.button`
   width: 100%;
@@ -43,7 +42,7 @@ export const FormField = styled.div`
   height: 85px;
   justify-content: space-between;
   position: relative;
-  margin-top: ${(props) => (props.topMargin ? "20px" : "0")};
+  margin-top: ${({ topMargin }) => (topMargin ? "20px" : "0")};
 `;
 
 export const Image = styled.img`

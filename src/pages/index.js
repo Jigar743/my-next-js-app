@@ -1,10 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 function HomePage() {
-
   return (
     <>
       <Head>
@@ -22,3 +19,12 @@ function HomePage() {
 }
 
 export default HomePage;
+
+export async function getServerSideProps() {
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/signup",
+    },
+  };
+}

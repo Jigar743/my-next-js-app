@@ -1,4 +1,3 @@
-import axios from "axios";
 import jwt from "jsonwebtoken";
 
 export const generateToken = (user) => {
@@ -8,10 +7,14 @@ export const generateToken = (user) => {
     password: user.password,
     _id: user._id.toString(),
   };
-  const token = jwt.sign(u, process.env.JWT_SECRET, {
-    expiresIn: 60 * 60 * 24, // expires in 24 hours
-  });
+  const token = jwt.sign(
+    u,
+    process.env.JWT_SECRET,
+    { algorithm: "HS256" },
+    {
+      expiresIn: 60 * 60 * 24, // expires in 24 hours
+    }
+  );
 
   return token;
 };
-
