@@ -33,7 +33,7 @@ export default async function dbConnect(req, res, next) {
         return mongoose;
       })
       .catch((e) => {
-        console.log("Something wen wrong!", e);
+        console.log("Something went wrong!", e);
         res.status(502).json({ message: "Internal server error!" });
       });
   }

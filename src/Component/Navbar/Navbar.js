@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "../../styles/global.module.css";
 import Cookies from "js-cookie";
 
@@ -44,12 +44,10 @@ function Navbar({ isLoggedIn, loginUser }) {
               </a>
               {popOverToggle && (
                 <div style={{ display: "block" }} className={styles.popover}>
-                  <h3>{loginUser.name}</h3>
-                  <p>Email: {loginUser.email}</p>
                   <a
                     href="#"
                     onClick={() => {
-                      router.replace("/login");
+                      router.push(`/users/${loginUser._id.toString()}`);
                     }}
                   >
                     Edit Profile

@@ -1,12 +1,14 @@
 import jwt from "jsonwebtoken";
-import Users from "../Models/Users";
+import User from "../Models/UsersModal";
 
 export const getLoggiedInUser = async (user) => {
-  const currUser = await Users.findById({ _id: user._id })
+  const currUser = await User.findById({ _id: user._id })
     .then((user) => {
+      // console.log({ user });
       return user;
     })
     .catch((err) => {
+      console.log({ err });
       return null;
     });
   return currUser;
@@ -20,12 +22,14 @@ export const isAuthenticated = async (context) => {
     const tmp = jwt.verify(token, process.env.JWT_SECRET, {
       algorithm: "HS256",
     });
-    console.log({ tmp });
     const loggedInUser = await getLoggiedInUser(tmp);
 
     if (!loggedInUser) {
       return { isLoggedIn: false, user: null };
     }
-    return { isLoggedIn: true, user: JSON.parse(JSON.stringify(loggedInUser)) };
+    return {
+      isLoggedIn: true,
+      user: JSON.parse(JSON.stringify(loggedInUser)),
+    };
   }
 };

@@ -1,5 +1,6 @@
 import nc from "next-connect";
 import dbConnect from "./DBConnect";
+import { verifyToken } from "../Controllers/MiddlewareController";
 
 function onError(err, req, res, next) {
   console.error(err);
@@ -15,3 +16,11 @@ const handler = nc({
 }).use(dbConnect);
 
 export default handler;
+
+export const protectedHandler = nc({
+  attachParams: true,
+  onNoMatch: (req, res) => {
+    req.status(404).send("page is not found");
+  },
+  onError: onError,
+}).use(verifyToken);
