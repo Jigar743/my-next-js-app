@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { isAuthenticated } from "../../Helpers/AuthHandler";
 import axios from "axios";
 import { API_ROUTES } from "../../Helpers/ApiManage";
 
-export default function UserPage({ loginUser }) {
+export default function UserPage({ isLoggedIn, loginUser }) {
   const [users, setUsers] = useState([]);
   const { _id, name, email, active, createdAt, updatedAt } = loginUser;
 

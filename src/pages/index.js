@@ -5,7 +5,6 @@ function HomePage() {
   return (
     <>
       <Head>
-        <title>My Next App</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,6 +12,7 @@ function HomePage() {
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
           rel="stylesheet"
         />
+        <title>App with next js</title>
       </Head>
     </>
   );

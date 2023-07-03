@@ -4,8 +4,8 @@ import { theme } from "../../styles/ThemeStyle.styled";
 import { useState } from "react";
 import { useEffect } from "react";
 
-function Provider({ children }) {
+function CustomThemeProvider({ children }) {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
 
-export default Provider;
+export default CustomThemeProvider;
